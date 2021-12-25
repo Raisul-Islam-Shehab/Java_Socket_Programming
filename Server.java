@@ -9,9 +9,11 @@ public class Server {
 
     public static void main(String[] args) throws IOException {
         ServerSocket serverSocket = new ServerSocket(6000);
+        System.out.println("Server started...");
 
         while (true) {
             Socket socket = serverSocket.accept();
+            System.out.println("Client connected...");
 
             ObjectInputStream oIs = new ObjectInputStream(socket.getInputStream());
             ObjectOutputStream oUs = new ObjectOutputStream(socket.getOutputStream());
@@ -21,10 +23,11 @@ public class Server {
                 Object cMsg = oIs.readObject();
                 System.out.println("From Client : " + (String) cMsg);
 
-                String severMsg = (String) cMsg;
-                severMsg = severMsg.toUpperCase();
-                //write to the client..
-                oUs.writeObject(severMsg);
+                String serverMsg = (String) cMsg;
+                serverMsg = serverMsg.toUpperCase();
+                //write to the client...
+                oUs.writeObject(serverMsg);
+                System.out.println("Message delivered successfully");
 
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
